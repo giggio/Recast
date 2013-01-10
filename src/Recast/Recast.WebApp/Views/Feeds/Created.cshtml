@@ -1,0 +1,26 @@
+﻿@model Recast.WebApp.Models.Entities.Feed
+
+@{
+    ViewBag.Title = "Created";
+}
+
+<h2>Created</h2>
+
+<fieldset>
+    <legend>Feed</legend>
+
+    <div class="display-label">
+         User name:
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PartitionKey)
+    </div>
+    <div class="display-label">
+         Feed name:
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RowKey)
+    </div>
+
+    
+</fieldset>
