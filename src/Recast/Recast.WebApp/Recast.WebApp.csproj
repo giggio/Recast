@@ -88,6 +88,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="RouteDebugger">
+      <HintPath>..\packages\routedebugger.2.1.4.0\lib\net40\RouteDebugger.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -298,7 +301,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Feeds\New.cshtml" />
-    <Content Include="Views\Feeds\Created.cshtml" />
+    <Content Include="Views\Feeds\ViewFeed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Filters\" />
