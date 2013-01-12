@@ -1,7 +1,10 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
+using AutoMapper;
 using Microsoft.WindowsAzure.Storage.Table;
 using Recast.WebApp.Infra;
 using Recast.WebApp.Models.Entities;
+using Recast.WebApp.Models.ViewModel;
 
 namespace Recast.WebApp.Controllers
 {
@@ -31,12 +34,36 @@ namespace Recast.WebApp.Controllers
         {
             var account = AzureTableExtensions.GetStorageAccount();
             var client = account.CreateCloudTableClient();
-            var table = client.GetTableReference("Feed");
-            var feed = (Feed)table.Execute(TableOperation.Retrieve<Feed>(userName, name)).Result;
+            var feedsTable = client.GetTableReference("Feed");
+            var feed = (Feed)feedsTable.Execute(TableOperation.Retrieve<Feed>(userName, name)).Result;
+            var query = new TableQuery<Post>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, Post.CreateKey(feed.PartitionKey, feed.RowKey)));
+            var postsTable = client.GetTableReference("Post");
+            var posts = postsTable.ExecuteQuery(query);
+            var postsViewModels = Mapper.Map<IEnumerable<PostViewModel>>(posts);
+            ViewBag.Posts = postsViewModels;
             return View(feed);
         }
 
+        [HttpGet]
+        public ActionResult AddPost(string userName, string feedName)
+        {
+            return View(new PostViewModel{UserName = userName, FeedName = feedName});
+        }
 
+        [HttpPost]
+        public ActionResult AddPost(PostViewModel postView)
+        {
+            if (!ModelState.IsValid)
+                return View(postView);
+            var post = Mapper.Map<Post>(postView);
 
+            var account = AzureTableExtensions.GetStorageAccount();
+            var client = account.CreateCloudTableClient();
+            var table = client.GetTableReference("Post");
+            table.CreateIfNotExists();
+            table.Insert(post);
+
+            return RedirectToRoute("ViewFeed", new { userName = post.GetUserName(), name = post.GetFeedName()});
+        }
     }
 }

@@ -1,7 +1,9 @@
-﻿@model Recast.WebApp.Models.Entities.Feed
+﻿@using Recast.WebApp.Models.Entities
+@using Recast.WebApp.Models.ViewModel
+@model Feed
 
 @{
-    ViewBag.Title = "Feed";
+    ViewBag.Title = "Feed" + Model.RowKey;
 }
 
 <h2>Feed @Model.RowKey for @Model.PartitionKey</h2>
@@ -10,3 +12,12 @@
 
     
 </fieldset>
+
+<ol>
+@foreach (PostViewModel post in ViewBag.Posts)
+{
+    <li>@post.Title</li>
+}
+</ol>
+
+@Html.ActionLink("Add podcast post", "AddPost", "Feeds", new { userName = Model.PartitionKey, feedName = Model.RowKey }, null)

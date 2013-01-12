@@ -45,6 +45,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.2.2.0\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="DotNetOpenAuth.AspNet, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\DotNetOpenAuth.AspNet.4.1.4.12333\lib\net45-full\DotNetOpenAuth.AspNet.dll</HintPath>
@@ -179,6 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AuthConfig.cs" />
+    <Compile Include="App_Start\AutoMapping.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -190,7 +194,8 @@
     </Compile>
     <Compile Include="Infra\AzureTableExtensions.cs" />
     <Compile Include="Models\Entities\Feed.cs" />
-    <Compile Include="Models\Entities\Podcast.cs" />
+    <Compile Include="Models\Entities\Post.cs" />
+    <Compile Include="Models\ViewModel\PostViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -302,6 +307,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Feeds\New.cshtml" />
     <Content Include="Views\Feeds\ViewFeed.cshtml" />
+    <Content Include="Views\Feeds\AddPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Filters\" />

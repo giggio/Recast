@@ -17,6 +17,7 @@ namespace Recast.WebApp
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+            AutoMapping.MapAll();
         }
     }
 }
