@@ -22,7 +22,6 @@ namespace Recast.WebApp.Controllers
             var account = AzureTableExtensions.GetStorageAccount();
             var client = account.CreateCloudTableClient();
             var table = client.GetTableReference("Feed");
-            table.CreateIfNotExists();
 
             var feed = new Feed(userName, name);
             table.Insert(feed);
@@ -60,7 +59,6 @@ namespace Recast.WebApp.Controllers
             var account = AzureTableExtensions.GetStorageAccount();
             var client = account.CreateCloudTableClient();
             var table = client.GetTableReference("Post");
-            table.CreateIfNotExists();
             table.Insert(post);
 
             return RedirectToRoute("ViewFeed", new { userName = post.GetUserName(), name = post.GetFeedName()});

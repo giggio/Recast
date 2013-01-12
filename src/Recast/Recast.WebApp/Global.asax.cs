@@ -10,6 +10,7 @@ namespace Recast.WebApp
     {
         protected void Application_Start()
         {
+            AzureStorage.CreateAllTables();
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
