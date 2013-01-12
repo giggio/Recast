@@ -262,7 +262,14 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\goToFeed.coffee" />
     <None Include="Scripts\jquery-1.8.3.intellisense.js" />
+    <Content Include="Scripts\GoToFeed.js">
+      <DependentUpon>goToFeed.coffee</DependentUpon>
+    </Content>
+    <Content Include="Scripts\GoToFeed.min.js">
+      <DependentUpon>goToFeed.coffee</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery-1.8.3.js" />
     <Content Include="Scripts\jquery-1.8.3.min.js" />
     <Content Include="Scripts\jquery-ui-1.9.2.js" />
@@ -309,6 +316,7 @@
     <Content Include="Views\Feeds\New.cshtml" />
     <Content Include="Views\Feeds\ViewFeed.cshtml" />
     <Content Include="Views\Feeds\AddPost.cshtml" />
+    <Content Include="Views\Feeds\GoToFeed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Filters\" />

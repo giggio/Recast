@@ -5,8 +5,10 @@
         <title>@ViewBag.Title - My ASP.NET MVC Application</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
+        <script type="text/javascript">
+            baseUrl = "@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, UrlHelper.GenerateContentUrl("~", new HttpContextWrapper(HttpContext.Current)))"
+        </script>
         @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
     </head>
     <body>
         <header>
@@ -18,8 +20,7 @@
                     <nav>
                         <ul id="menu">
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                            <li>@Html.ActionLink("Go to feed", "GoToFeed", "Feeds")</li>
                             <li>@Html.ActionLink("New feed", "New", "Feeds")</li>
                         </ul>
                     </nav>

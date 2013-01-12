@@ -63,5 +63,10 @@ namespace Recast.WebApp.Controllers
 
             return RedirectToRoute("ViewFeed", new { userName = post.GetUserName(), name = post.GetFeedName()});
         }
+
+        public ActionResult GoToFeed()
+        {
+            return View();
+        }
     }
 }
