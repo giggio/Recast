@@ -5,7 +5,9 @@
     ViewBag.Title = "Feed " + Model.RowKey;
 }
 
-<h2>Feed @Model.RowKey for @Model.PartitionKey</h2>
+<link rel="alternate" type="application/rss+xml" title="@Model.RowKey" href="@Url.RouteUrl("XMLFeed", new { userName = Model.PartitionKey, feedName = Model.RowKey })" />
+
+<h2>Feed @Model.RowKey for @Model.PartitionKey <a href="@Url.RouteUrl("XMLFeed", new { userName = Model.PartitionKey, feedName = Model.RowKey })" class="btn"><i class="icon-music"></i> Feed rss</a></h2>
 
 <fieldset>
 
@@ -15,8 +17,10 @@
 <ol>
 @foreach (PostViewModel post in ViewBag.Posts)
 {
-    <li>@post.Title <span class="btn-group">@Html.ActionLink("Edit", "EditPost", new { userName = post.UserName, feedName = post.FeedName, title = post.Title }, new { @class = "btn"}) @Html.ActionLink("Delete", "DeletePost", new { userName = post.UserName, feedName = post.FeedName, title = post.Title }, new { @class = "btn"})</span></li>
+    <li>@post.Title <span class="btn-group"><a href="@Url.Action("EditPost", new { userName = post.UserName, feedName = post.FeedName, title = post.Title })" class="btn"><i class="icon-edit"></i> Edit</a> <a href="@Url.Action("DeletePost", new { userName = post.UserName, feedName = post.FeedName, title = post.Title })" class="btn btn-danger"><i class="icon-trash"></i> Delete</a></span></li>
 }
 </ol>
 
-@Html.ActionLink("Add podcast post", "AddPost", "Feeds", new { userName = Model.PartitionKey, feedName = Model.RowKey }, new { @class = "btn btn-primary"})
+<p>
+    @Html.ActionLink("Add podcast post", "AddPost", "Feeds", new { userName = Model.PartitionKey, feedName = Model.RowKey }, new { @class = "btn btn-primary"})
+</p>

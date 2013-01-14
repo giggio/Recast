@@ -1,14 +1,14 @@
 ﻿@using Recast.WebApp.Models.Entities
-@using Recast.WebApp.Models.ViewModel
 @model Feed
-
 @{
     if (Model != null)
     {
         Html.RenderPartial("_ShowFeed");
+        ViewBag.Title = "Feed " + Model.RowKey + " for " + Model.PartitionKey;
     }
     else
     {
         Html.RenderPartial("_FeedNotFound");
+        ViewBag.Title = "Unknown feed";
     }
 }
