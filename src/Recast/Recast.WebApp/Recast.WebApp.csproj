@@ -334,6 +334,7 @@
     <Content Include="Views\Feeds\AddPost.cshtml" />
     <Content Include="Views\Feeds\GoToFeed.cshtml" />
     <Content Include="Scripts\startup.coffee" />
+    <Content Include="Views\Home\_UnderConstruction.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Filters\" />
