@@ -194,9 +194,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HtmlExtensions.cs" />
     <Compile Include="Infra\AzureTableExtensions.cs" />
     <Compile Include="Models\Entities\Feed.cs" />
     <Compile Include="Models\Entities\Post.cs" />
+    <Compile Include="Models\ViewModel\FeedViewModel.cs" />
     <Compile Include="Models\ViewModel\PostViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -272,14 +274,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\recast_logo.png" />
-    <Content Include="Scripts\goToFeed.coffee" />
     <None Include="Scripts\jquery-1.8.3.intellisense.js" />
-    <Content Include="Scripts\GoToFeed.js">
-      <DependentUpon>goToFeed.coffee</DependentUpon>
-    </Content>
-    <Content Include="Scripts\GoToFeed.min.js">
-      <DependentUpon>goToFeed.coffee</DependentUpon>
-    </Content>
     <Content Include="Scripts\jquery-1.8.3.js" />
     <Content Include="Scripts\jquery-1.8.3.min.js" />
     <Content Include="Scripts\jquery-ui-1.9.2.js" />
@@ -335,6 +330,9 @@
     <Content Include="Views\Feeds\GoToFeed.cshtml" />
     <Content Include="Scripts\startup.coffee" />
     <Content Include="Views\Home\_UnderConstruction.cshtml" />
+    <Content Include="Views\Feeds\_ShowFeed.cshtml" />
+    <Content Include="Views\Feeds\_FeedNotFound.cshtml" />
+    <Content Include="Views\Feeds\_GoToFeed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Filters\" />

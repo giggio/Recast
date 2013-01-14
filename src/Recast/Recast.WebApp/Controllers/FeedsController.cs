@@ -16,28 +16,34 @@ namespace Recast.WebApp.Controllers
         [HttpGet]
         public ActionResult New()
         {
-            return View();
+            return View(new FeedViewModel());
         }
 
         [HttpPost]
-        public ActionResult New(string userName, string feedName)
+        public ActionResult New(FeedViewModel feedViewModel)
         {
+            if (!ModelState.IsValid) return View(feedViewModel);
+
             var account = AzureTableExtensions.GetStorageAccount();
             var client = account.CreateCloudTableClient();
             var table = client.GetTableReference("Feed");
 
-            var feed = new Feed(userName, feedName);
+            var feed = new Feed(feedViewModel.UserName, feedViewModel.FeedName);
             table.Insert(feed);
 
-            return RedirectToRoute("ViewFeed", new { userName, feedName });
+            return RedirectToRoute("ViewFeed", new { userName = feedViewModel.UserName, feedName = feedViewModel.FeedName});
         }  
 
         public ActionResult ViewFeed(string userName, string feedName)
         {
+            ViewBag.UserName = userName;
+            ViewBag.FeedName = feedName;
             var account = AzureTableExtensions.GetStorageAccount();
             var client = account.CreateCloudTableClient();
             var feedsTable = client.GetTableReference("Feed");
             var feed = (Feed)feedsTable.Execute(TableOperation.Retrieve<Feed>(userName, feedName)).Result;
+            if (feed == null)
+                return View();
             var query = new TableQuery<Post>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, Post.CreateKey(feed.PartitionKey, feed.RowKey)));
             var postsTable = client.GetTableReference("Post");
             var posts = postsTable.ExecuteQuery(query);
@@ -66,10 +72,16 @@ namespace Recast.WebApp.Controllers
 
             return RedirectToRoute("ViewFeed", new { userName = post.GetUserName(), feedName = post.GetFeedName()});
         }
-
+        [HttpGet]
         public ActionResult GoToFeed()
         {
             return View();
+        }      
+        [HttpPost]
+        public ActionResult GoToFeed(FeedViewModel feedViewModel)
+        {
+            if (!ModelState.IsValid) return View(feedViewModel);
+            return RedirectToRoute("ViewFeed", new { userName = feedViewModel.UserName, feedName = feedViewModel.FeedName });
         }
 
         public ActionResult GetFeed(string userName, string feedName)

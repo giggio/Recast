@@ -53,8 +53,9 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/startup.min.js")
     @RenderSection("scripts", required: false)
-    <script type="text/javascript" src="~/Scripts/startup.min.js"></script>
+    @Html.RenderScripts()
 </body>
 </html>
 <!-- Podcast icon from Toddle: http://www.toddle.com/ -->
