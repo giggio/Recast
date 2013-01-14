@@ -107,5 +107,34 @@ namespace Recast.WebApp.Controllers
                 postsTable.Delete(post);
             return RedirectToRoute("ViewFeed", new { userName, feedName });
         }
+
+        [HttpGet]
+        public ActionResult EditPost(string userName, string feedName, string title)
+        {
+            var account = AzureTableExtensions.GetStorageAccount();
+            var client = account.CreateCloudTableClient();
+            var postsTable = client.GetTableReference<Post>();
+            var post = postsTable.Retrieve<Post>(Post.CreateKey(userName, feedName), HttpUtility.UrlEncode(title));
+            if (post == null)
+                return RedirectToRoute("ViewFeed", new { userName, feedName });
+            var postViewModel = Mapper.Map<PostViewModel>(post);
+            ViewBag.IsUpdate = true;
+            return View(postViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult EditPost(PostViewModel postViewModel)
+        {
+            if (!ModelState.IsValid) return View(postViewModel);
+            var account = AzureTableExtensions.GetStorageAccount();
+            var client = account.CreateCloudTableClient();
+            var postsTable = client.GetTableReference<Post>();
+            var post = postsTable.Retrieve<Post>(Post.CreateKey(postViewModel.UserName, postViewModel.FeedName), HttpUtility.UrlEncode(postViewModel.Title));
+            if (post == null)
+                return RedirectToRoute("ViewFeed", new { userName = postViewModel.UserName, feedName = postViewModel.FeedName });
+            Mapper.Map(postViewModel, post);
+            postsTable.Merge(post);
+            return RedirectToRoute("ViewFeed", new { userName = postViewModel.UserName, feedName = postViewModel.FeedName });
+        }
     }
 }

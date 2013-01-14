@@ -333,6 +333,8 @@
     <Content Include="Views\Feeds\_ShowFeed.cshtml" />
     <Content Include="Views\Feeds\_FeedNotFound.cshtml" />
     <Content Include="Views\Feeds\_GoToFeed.cshtml" />
+    <Content Include="Views\Feeds\EditPost.cshtml" />
+    <Content Include="Views\Feeds\_EditPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Filters\" />

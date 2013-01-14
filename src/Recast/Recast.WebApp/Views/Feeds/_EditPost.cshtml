@@ -1,0 +1,97 @@
+﻿@model Recast.WebApp.Models.ViewModel.PostViewModel
+        @Html.HiddenFor(model => model.UserName)
+        @Html.HiddenFor(model => model.FeedName)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Title)
+        </div>
+<div class="editor-field">
+    @if (ViewBag.IsUpdate != null && ViewBag.IsUpdate)
+    {
+        @Html.TextBoxFor(model => model.Title, new {disabled = "disabled"})
+    }
+    else
+    {
+        @Html.TextBoxFor(model => model.Title)
+    }
+    @Html.ValidationMessageFor(model => model.Title)
+</div>
+        
+        <div class="editor-label">
+            Link:
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SongLink)
+            @Html.ValidationMessageFor(model => model.SongLink)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Description)
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Subtitle)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Subtitle)
+            @Html.ValidationMessageFor(model => model.Subtitle)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Summary)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Summary)
+            @Html.ValidationMessageFor(model => model.Summary)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Author)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Author)
+            @Html.ValidationMessageFor(model => model.Author)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Category)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Category)
+            @Html.ValidationMessageFor(model => model.Category)
+        </div>
+
+        <div class="editor-label">
+            Publish Date
+        </div>
+        <div class="editor-field">
+            @Html.HiddenFor(model => model.PublishDate)
+            <div id="PublishDateDatePicker"></div>
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Duration)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Duration)
+            @Html.ValidationMessageFor(model => model.Duration)
+        </div>
+
+@Html.Script(
+    @Scripts.Render("~/bundles/jqueryval")
+)
+@Html.Script(
+    @<script type="text/javascript">
+        $(function () {
+            $("#PublishDateDatePicker").datepicker({
+                altField: "#PublishDate",
+                altFormat: "mm/dd/yy '12:00:00 PM'"
+            });
+            $("#PublishDateDatePicker").datepicker("setDate", "@Model.PublishDate.ToString("d")");
+        });
+    </script>
+)

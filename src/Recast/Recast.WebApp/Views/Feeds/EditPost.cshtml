@@ -1,10 +1,10 @@
 ﻿@model Recast.WebApp.Models.ViewModel.PostViewModel
 
 @{
-    ViewBag.Title = "Adding new post";
+    ViewBag.Title = "Edit Podcast Post";
 }
 
-<h2>Adding post to feed @Model.FeedName</h2>
+<h2>Editing post to feed @Model.FeedName</h2>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
@@ -14,7 +14,7 @@
         @{Html.RenderPartial("_EditPost");}
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="Update" />
         </p>
     </fieldset>
 }

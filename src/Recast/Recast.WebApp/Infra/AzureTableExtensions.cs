@@ -22,6 +22,10 @@ namespace Recast.WebApp.Infra
         {
             return table.Execute(TableOperation.Delete(obj));
         }
+        public static TableResult Merge<T>(this CloudTable table, T obj) where T : ITableEntity
+        {
+            return table.Execute(TableOperation.Merge(obj));
+        }
         public static T Retrieve<T>(this CloudTable table, string partitionKey, string rowKey) where T : ITableEntity
         {
             return (T)table.Execute(TableOperation.Retrieve<T>(partitionKey, rowKey)).Result;
