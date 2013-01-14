@@ -49,7 +49,7 @@ namespace Recast.WebApp.Controllers
         [HttpGet]
         public ActionResult AddPost(string userName, string feedName)
         {
-            return View(new PostViewModel{UserName = userName, FeedName = feedName});
+            return View(new PostViewModel{UserName = userName, FeedName = feedName, PublishDate = DateTime.Now, SongLink = "http://"});
         }
 
         [HttpPost]

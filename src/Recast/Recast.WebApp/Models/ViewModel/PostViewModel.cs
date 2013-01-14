@@ -9,7 +9,7 @@ namespace Recast.WebApp.Models.ViewModel
         public string FeedName { get; set; }
         [Required]
         public string UserName { get; set; }
-        [Required]
+        [Required, RegularExpression("^[Hh][Tt][Tt][Pp][Ss]?://.+", ErrorMessage = "Must start with http or https.")]
         public string SongLink { get; set; }
         [Required]
         public string Title { get; set; }

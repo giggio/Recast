@@ -262,6 +262,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\recast_logo.png" />
     <Content Include="Scripts\goToFeed.coffee" />
     <None Include="Scripts\jquery-1.8.3.intellisense.js" />
     <Content Include="Scripts\GoToFeed.js">
@@ -281,6 +282,12 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\startup.js">
+      <DependentUpon>startup.coffee</DependentUpon>
+    </Content>
+    <Content Include="Scripts\startup.min.js">
+      <DependentUpon>startup.coffee</DependentUpon>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -317,6 +324,7 @@
     <Content Include="Views\Feeds\ViewFeed.cshtml" />
     <Content Include="Views\Feeds\AddPost.cshtml" />
     <Content Include="Views\Feeds\GoToFeed.cshtml" />
+    <Content Include="Scripts\startup.coffee" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Filters\" />

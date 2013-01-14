@@ -20,6 +20,14 @@
             @Html.EditorFor(model => model.Title)
             @Html.ValidationMessageFor(model => model.Title)
         </div>
+        
+        <div class="editor-label">
+            Link:
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SongLink)
+            @Html.ValidationMessageFor(model => model.SongLink)
+        </div>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Description)
@@ -62,11 +70,12 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.PublishDate)
+            Publish Date
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.PublishDate)
-            @Html.ValidationMessageFor(model => model.PublishDate)
+            @Html.HiddenFor(model => model.PublishDate)
+            @*@Html.ValidationMessageFor(model => model.PublishDate)*@
+            <div id="PublishDateDatePicker"></div>
         </div>
 
         <div class="editor-label">
@@ -77,14 +86,6 @@
             @Html.ValidationMessageFor(model => model.Duration)
         </div>
 
-        <div class="editor-label">
-            Link:
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.SongLink)
-            @Html.ValidationMessageFor(model => model.SongLink)
-        </div>
-
         <p>
             <input type="submit" value="Create" />
         </p>
@@ -93,4 +94,12 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            $("#PublishDateDatePicker").datepicker({
+                altField: "#PublishDate",
+                altFormat: "mm/dd/yy '12:00:00 AM'"
+            });
+        });
+    </script>
 }
