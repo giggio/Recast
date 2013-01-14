@@ -16,8 +16,8 @@
 <ol>
 @foreach (PostViewModel post in ViewBag.Posts)
 {
-    <li>@post.Title @Html.ActionLink("delete", "DeletePost", new { userName = post.UserName, feedName = post.FeedName, title = post.Title })</li>
+    <li>@post.Title <span class="btn-group">@Html.ActionLink("Edit", "EditPost", new { userName = post.UserName, feedName = post.FeedName, title = post.Title }, new { @class = "btn"}) @Html.ActionLink("Delete", "DeletePost", new { userName = post.UserName, feedName = post.FeedName, title = post.Title }, new { @class = "btn"})</span></li>
 }
 </ol>
 
-@Html.ActionLink("Add podcast post", "AddPost", "Feeds", new { userName = Model.PartitionKey, feedName = Model.RowKey }, null)
+@Html.ActionLink("Add podcast post", "AddPost", "Feeds", new { userName = Model.PartitionKey, feedName = Model.RowKey }, new { @class = "btn btn-primary"})

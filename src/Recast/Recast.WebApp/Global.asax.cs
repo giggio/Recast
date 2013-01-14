@@ -19,6 +19,7 @@ namespace Recast.WebApp
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
             AutoMapping.MapAll();
+            BootstrapBundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }
 }

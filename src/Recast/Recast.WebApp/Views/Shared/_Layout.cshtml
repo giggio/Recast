@@ -1,52 +1,60 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>Recast &gt; @ViewBag.Title</title>
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <meta name="viewport" content="width=device-width" />
-        <script type="text/javascript">
-            baseUrl = "@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, UrlHelper.GenerateContentUrl("~", new HttpContextWrapper(HttpContext.Current)))"
-        </script>
-        @Styles.Render("~/Content/css")
-        @Styles.Render("~/Content/themes/base/css")
-    </head>
-    <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    
-                    <p class="site-title"><a href="@Url.Action("Index", "Home")"><img src="@Url.Content("~/Images/recast_logo.png")" style="border: 0" /></a></p>
+<head>
+    <meta charset="utf-8" />
+    <title>Recast &gt; @ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript">
+        baseUrl = "@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, UrlHelper.GenerateContentUrl("~", new HttpContextWrapper(HttpContext.Current)))"
+    </script>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/base/css")
+    @Styles.Render("~/Content/bootstrap")
+    @*@Styles.Render("~/Content/bootstrap/css/bootstrap.min.css")
+    @Styles.Render("~/Content/bootstrap/css/bootstrap-responsive.min.css")*@
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="#">Recast</a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Go to feed", "GoToFeed", "Feeds")</li>
+                        <li>@Html.ActionLink("New feed", "New", "Feeds")</li>
+                    </ul>
                 </div>
-                <div class="float-right">
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Go to feed", "GoToFeed", "Feeds")</li>
-                            <li>@Html.ActionLink("New feed", "New", "Feeds")</li>
-                        </ul>
-                    </nav>
-                </div>
+                <!--/.nav-collapse -->
             </div>
-        </header>
-        <div id="body">
-            @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
-                @RenderBody()
-            </section>
         </div>
+    </div>
+
+    <div class="container">
+        @RenderBody()
+        <hr />
         <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - Recast</p>
-                </div>
+            <div>
+                <p>&copy; @DateTime.Now.Year - Recast</p>
             </div>
         </footer>
+    </div>
+    <!-- /container -->
 
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/jqueryui")
-        @RenderSection("scripts", required: false)
-        <script type="text/javascript" src="~/Scripts/startup.min.js"></script>
-    </body>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @*@Scripts.Render("~/Content/bootstrap/js/bootstrap.min.js")*@
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript" src="~/Scripts/startup.min.js"></script>
+</body>
 </html>
 <!-- Podcast icon from Toddle: http://www.toddle.com/ -->

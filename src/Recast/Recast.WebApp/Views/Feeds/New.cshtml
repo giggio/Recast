@@ -5,13 +5,13 @@
 <h2>Create a new feed</h2>
 @using (Html.BeginForm())
 {
-    <p>
+    <div>
         <span>Your Name:</span><br/>
         @Html.TextBox("UserName")
-    </p>
-    <p>
+    </div>
+    <div>
         <span>Your feed name:</span><br/>
         @Html.TextBox("FeedName")
-    </p>
-    <input type="submit" value="Criar"/>
+    </div>
+    <input type="submit" value="Criar" class="btn btn-primary"/>
 }

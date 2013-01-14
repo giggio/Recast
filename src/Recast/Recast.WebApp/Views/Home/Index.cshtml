@@ -1,45 +1,35 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-@section featured {
-    <section class="featured">
-        <div class="content-wrapper">
-            <hgroup class="title">
-                <h1>@ViewBag.Title.</h1>
-                <h2>@ViewBag.Message</h2>
-            </hgroup>
-            <p>
-                To learn more about ASP.NET MVC visit
-                <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-                The page features <mark>videos, tutorials, and samples</mark> to help you get the most from ASP.NET MVC.
-                If you have any questions about ASP.NET MVC visit
-                <a href="http://forums.asp.net/1146.aspx/1?MVC" title="ASP.NET MVC Forum">our forums</a>.
-            </p>
-        </div>
-    </section>
-}
-<h3>We suggest the following:</h3>
-<ol class="round">
-    <li class="one">
-        <h5>Getting Started</h5>
-        ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-        enables a clean separation of concerns and that gives you full control over markup
-        for enjoyable, agile development. ASP.NET MVC includes many features that enable
-        fast, TDD-friendly development for creating sophisticated applications that use
-        the latest web standards.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245151">Learn more…</a>
-    </li>
 
-    <li class="two">
-        <h5>Add NuGet packages and jump-start your coding</h5>
-        NuGet makes it easy to install and update free libraries and tools.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245153">Learn more…</a>
-    </li>
-
-    <li class="three">
-        <h5>Find Web Hosting</h5>
-        You can easily find a web hosting company that offers the right mix of features
-        and price for your applications.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245157">Learn more…</a>
-    </li>
-</ol>
+<div class="hero-unit">
+    <p style="float: left; margin: 20px">
+        <a href="@Url.Action("Index", "Home")">
+            <img src="@Url.Content("~/Images/recast_logo.png")" style="border: 0" />
+        </a>
+    </p>
+    <h1>Recast</h1>
+    <p>
+        A simple way to create a podcast from any mp3 file that is on the web or to republish an old podcast episode that is now no longer available.
+    </p>
+    <p>
+        <a class="btn btn-primary btn-large">Learn more &raquo;</a>
+    </p>
+</div>
+<div class="row">
+    <div class="span4">
+        <h2>Recast old webcasts</h2>
+        <p>With Recast you simply point to old episode mp3 files and they become imediately available as new webcast.</p>
+        <p><a class="btn" href="#">View details &raquo;</a></p>
+    </div>
+    <div class="span4">
+        <h2>Easily create a webcast</h2>
+        <p>You can also use Recast to manually create a webcast. Simply create the webcast adding the necessary data. No instalation, no configuration.</p>
+        <p><a class="btn" href="#">View details &raquo;</a></p>
+    </div>
+    <div class="span4">
+        <h2>Open source</h2>
+        <p>Recast is an open source project using ASP.NET MVC and hosted for free on Windows Azure.</p>
+        <p><a class="btn" href="https://github.com/giggio/Recast/">View on github &raquo;</a></p>
+    </div>
+</div>
