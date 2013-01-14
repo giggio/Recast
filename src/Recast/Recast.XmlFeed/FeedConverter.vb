@@ -1,7 +1,7 @@
 ﻿Imports <xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
 Public Class FeedConverter
 
-    Public Shared Function Create(feed As Object, posts As IEnumerable(Of Object)) As String
+    Public Shared Function Create(host As Uri, feed As Object, posts As IEnumerable(Of Object)) As String
         Dim xml =
 <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
@@ -13,7 +13,7 @@ Public Class FeedConverter
         <itunes:summary>
             No Summary
         </itunes:summary>
-        <link>http://recast.azurewebsites.net/Feeds/<%= feed.PartitionKey & "/" & feed.RowKey %></link>
+        <link><%= host.ToString() & feed.PartitionKey & "/" & feed.RowKey %></link>
         <itunes:author><%= feed.PartitionKey %></itunes:author>
         <copyright>None</copyright>
         <pubDate>Tue, 01 Jan 2013 09:00:00 -0300</pubDate>
@@ -27,11 +27,11 @@ Public Class FeedConverter
             <itunes:email>someemail@email.com</itunes:email>
         </itunes:owner>
         <ttl>90</ttl>
-        <itunes:image href="http://someimage/someimage.jpg"/>
+        <itunes:image href=<%= host.ToString() & "someimage.jpg" %>/>
         <image>
-            <url>http://someimage/someimage.jpg</url>
+            <url><%= host.ToString() %>someimage.jpg</url>
             <title><%= feed.RowKey %></title>
-            <link>http://recast.azurewebsites.net/</link>
+            <link>host.ToString()</link>
             <description>
                 A recasted podcast.
             </description>
@@ -43,23 +43,18 @@ Public Class FeedConverter
         </itunes:category>
         <itunes:block>no</itunes:block>
         <itunes:explicit>no</itunes:explicit>
-        <atom:link href="http://recast.azurewebsites.net/feed" rel="self" type="application/rss+xml"/>
+        <atom:link href=<%= host.ToString() & "feed" %> rel="self" type="application/rss+xml"/>
         <%= From post In posts
             Select
         <item>
             <title><%= post.Title %></title>
-            <description>
-                <%= post.Description %>
-            </description>
-            <itunes:subtitle>
-                <%= post.Subtitle %>
-            </itunes:subtitle>
-            <itunes:summary>
-                <%= post.Summary %>
-            </itunes:summary>
-            <link>http://recast.azurewebsites.net/<%= feed.PartitionKey & "/" & feed.RowKey & "/" & post.PartitionKey & "/" & post.RowKey %></link>
+            <description><%= post.Description %></description>
+            <itunes:subtitle><%= post.Subtitle %></itunes:subtitle>
+            <itunes:summary><%= post.Summary %></itunes:summary>
+            <link><%= post.SongUrl %></link>
+            <guid><%= post.SongUrl %></guid>
             <itunes:author><%= feed.PartitionKey %></itunes:author>
-            <enclosure url=<%= post.RowKey %> length="-1" type="audio/mpeg"/>
+            <enclosure url=<%= post.SongUrl %> length="-1" type="audio/mpeg"/>
             <itunes:duration>00:01:00</itunes:duration>
             <author><%= feed.PartitionKey %></author>
             <pubDate>Tue, 01 Jan 2013 10:00:00 -0300</pubDate>

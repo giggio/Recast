@@ -4,14 +4,14 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Recast.WebApp.Models.Entities
 {
+    //feed key is pk, title is rowkey
     public class Post : TableEntity
     {
         private const string splitToken = @"_fjhadkjdfhk2313aj_";
-        public Post() {}
+        //public Post() {}
+        //public Post(string partitionKey, string rowKey) : base(partitionKey, rowKey) {}
 
-        //feed key is pk, link is rowkey
-        public Post(string partitionKey, string rowKey) : base(partitionKey, rowKey) {}
-
+        public string SongLink { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Subtitle { get; set; }

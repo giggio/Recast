@@ -16,7 +16,7 @@
 <ol>
 @foreach (PostViewModel post in ViewBag.Posts)
 {
-    <li>@post.Title</li>
+    <li>@post.Title @Html.ActionLink("delete", "DeletePost", new { userName = post.UserName, feedName = post.FeedName, title = post.Title })</li>
 }
 </ol>
 

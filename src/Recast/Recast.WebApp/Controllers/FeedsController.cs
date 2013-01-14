@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -79,8 +81,19 @@ namespace Recast.WebApp.Controllers
             var query = new TableQuery<Post>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, Post.CreateKey(feed.PartitionKey, feed.RowKey)));
             var postsTable = client.GetTableReference("Post");
             var posts = postsTable.ExecuteQuery(query);
-            var xml = FeedConverter.Create(feed, posts);
+            var xml = FeedConverter.Create(new Uri(string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, UrlHelper.GenerateContentUrl("~", HttpContext))), feed, posts);
             return Content(xml, "text/xml");
+        }
+
+        public ActionResult DeletePost(string userName, string feedName, string title)
+        {
+            var account = AzureTableExtensions.GetStorageAccount();
+            var client = account.CreateCloudTableClient();
+            var postsTable = client.GetTableReference<Post>();
+            var post = postsTable.Retrieve<Post>(Post.CreateKey(userName, feedName), HttpUtility.UrlEncode(title));
+            if (post != null)
+                postsTable.Delete(post);
+            return RedirectToRoute("ViewFeed", new { userName, name = feedName });
         }
     }
 }

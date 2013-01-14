@@ -10,7 +10,7 @@ namespace Recast.WebApp.Models.ViewModel
         [Required]
         public string UserName { get; set; }
         [Required]
-        public string Link { get; set; }
+        public string SongLink { get; set; }
         [Required]
         public string Title { get; set; }
         public string Description { get; set; }
