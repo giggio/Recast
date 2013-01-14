@@ -18,7 +18,7 @@ namespace Recast.WebApp
 
             routes.MapRoute(
                 name: "ViewFeed",
-                url: "Feeds/{userName}/{name}",
+                url: "Feeds/{userName}/{feedName}",
                 defaults: new {controller = "Feeds", action = "ViewFeed"},
                 constraints: new { userName = @"^(?!create$|new$).*", httpMethod = new HttpMethodConstraint("GET") }
             );

@@ -51,10 +51,10 @@ Public Class FeedConverter
             <description><%= post.Description %></description>
             <itunes:subtitle><%= post.Subtitle %></itunes:subtitle>
             <itunes:summary><%= post.Summary %></itunes:summary>
-            <link><%= post.SongUrl %></link>
-            <guid><%= post.SongUrl %></guid>
+            <link><%= post.SongLink %></link>
+            <guid><%= post.SongLink %></guid>
             <itunes:author><%= feed.PartitionKey %></itunes:author>
-            <enclosure url=<%= post.SongUrl %> length="-1" type="audio/mpeg"/>
+            <enclosure url=<%= post.SongLink %> length="-1" type="audio/mpeg"/>
             <itunes:duration>00:01:00</itunes:duration>
             <author><%= feed.PartitionKey %></author>
             <pubDate>Tue, 01 Jan 2013 10:00:00 -0300</pubDate>

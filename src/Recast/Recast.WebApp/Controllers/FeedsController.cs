@@ -20,24 +20,24 @@ namespace Recast.WebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult New(string userName, string name)
+        public ActionResult New(string userName, string feedName)
         {
             var account = AzureTableExtensions.GetStorageAccount();
             var client = account.CreateCloudTableClient();
             var table = client.GetTableReference("Feed");
 
-            var feed = new Feed(userName, name);
+            var feed = new Feed(userName, feedName);
             table.Insert(feed);
 
-            return RedirectToRoute("ViewFeed", new { userName, name });
+            return RedirectToRoute("ViewFeed", new { userName, feedName });
         }  
 
-        public ActionResult ViewFeed(string userName, string name)
+        public ActionResult ViewFeed(string userName, string feedName)
         {
             var account = AzureTableExtensions.GetStorageAccount();
             var client = account.CreateCloudTableClient();
             var feedsTable = client.GetTableReference("Feed");
-            var feed = (Feed)feedsTable.Execute(TableOperation.Retrieve<Feed>(userName, name)).Result;
+            var feed = (Feed)feedsTable.Execute(TableOperation.Retrieve<Feed>(userName, feedName)).Result;
             var query = new TableQuery<Post>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, Post.CreateKey(feed.PartitionKey, feed.RowKey)));
             var postsTable = client.GetTableReference("Post");
             var posts = postsTable.ExecuteQuery(query);
@@ -64,7 +64,7 @@ namespace Recast.WebApp.Controllers
             var table = client.GetTableReference("Post");
             table.Insert(post);
 
-            return RedirectToRoute("ViewFeed", new { userName = post.GetUserName(), name = post.GetFeedName()});
+            return RedirectToRoute("ViewFeed", new { userName = post.GetUserName(), feedName = post.GetFeedName()});
         }
 
         public ActionResult GoToFeed()
@@ -93,7 +93,7 @@ namespace Recast.WebApp.Controllers
             var post = postsTable.Retrieve<Post>(Post.CreateKey(userName, feedName), HttpUtility.UrlEncode(title));
             if (post != null)
                 postsTable.Delete(post);
-            return RedirectToRoute("ViewFeed", new { userName, name = feedName });
+            return RedirectToRoute("ViewFeed", new { userName, feedName });
         }
     }
 }
