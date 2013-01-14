@@ -9,7 +9,7 @@ You can visit it at [http://recast.azurewebsites.net/](http://recast.azurewebsit
 
 ## Documentation
 
-Ainda deve ser criada.
+Still to be created.
 
 ## Support
 
