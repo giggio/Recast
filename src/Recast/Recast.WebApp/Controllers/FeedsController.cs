@@ -5,6 +5,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 using Recast.WebApp.Infra;
 using Recast.WebApp.Models.Entities;
 using Recast.WebApp.Models.ViewModel;
+using Recast.XmlFeed;
 
 namespace Recast.WebApp.Controllers
 {
@@ -67,6 +68,19 @@ namespace Recast.WebApp.Controllers
         public ActionResult GoToFeed()
         {
             return View();
+        }
+
+        public ActionResult GetFeed(string userName, string feedName)
+        {
+            var account = AzureTableExtensions.GetStorageAccount();
+            var client = account.CreateCloudTableClient();
+            var feedsTable = client.GetTableReference("Feed");
+            var feed = (Feed)feedsTable.Execute(TableOperation.Retrieve<Feed>(userName, feedName)).Result;
+            var query = new TableQuery<Post>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, Post.CreateKey(feed.PartitionKey, feed.RowKey)));
+            var postsTable = client.GetTableReference("Post");
+            var posts = postsTable.ExecuteQuery(query);
+            var xml = FeedConverter.Create(feed, posts);
+            return Content(xml, "text/xml");
         }
     }
 }

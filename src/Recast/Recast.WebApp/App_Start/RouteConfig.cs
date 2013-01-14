@@ -10,10 +10,17 @@ namespace Recast.WebApp
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "XMLFeed",
+                url: "{userName}/{feedName}",
+                defaults: new { controller = "Feeds", action = "GetFeed" },
+                constraints: new { userName = @"^(?!feeds$|feed$|home$).*" }
+            );
+
+            routes.MapRoute(
                 name: "ViewFeed",
-                url: "Feed/{userName}/{name}",
+                url: "Feeds/{userName}/{name}",
                 defaults: new {controller = "Feeds", action = "ViewFeed"},
-                constraints: new { userName = @"^(?!create$|new$).*" }
+                constraints: new { userName = @"^(?!create$|new$).*", httpMethod = new HttpMethodConstraint("GET") }
             );
 
             routes.MapRoute(

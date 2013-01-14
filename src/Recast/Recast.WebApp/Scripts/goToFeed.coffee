@@ -4,4 +4,4 @@
     return unless $("#gotoForm").valid()
     userName = $('#UserName').val()
     feedName = $('#FeedName').val()
-    window.location = "#{baseUrl}Feed/#{userName}/#{feedName}")
+    window.location = "#{baseUrl}Feeds/#{userName}/#{feedName}")
