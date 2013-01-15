@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace Recast.WebApp.Controllers
 {
@@ -10,8 +6,6 @@ namespace Recast.WebApp.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
             return View();
         }
 
@@ -26,6 +20,21 @@ namespace Recast.WebApp.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        public ActionResult HowToStart()
+        {
+            return View();
+        }
+
+        public ActionResult Support()
+        {
+            return View();
+        }
+
+        public ActionResult Contribute()
+        {
             return View();
         }
     }

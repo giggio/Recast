@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "How to start";
+}
+
+<h2>How to start</h2>
+
+<ol>
+    <li>Go to the @Html.ActionLink("new feed", "New", "Feeds") page, fill in your username and your feed name and create a new feed. You will directed to your feed page.</li>
+    <li>Your feed page will list your feeds. At first you won't have any. Click on the "Add Podcast post" button and create one.</li>
+    <li>Fill in the fields for the podcast item. On the link field place the link to the mp3 file. Save the podcast item.</li>
+    <li>Back to the feed page, click on the "Feed rss" button. You will be redirected to the url that you will use to subscribe to the podcast.</li>
+</ol>
+
+<p>After you have created the feed you may come back to it at anytime by going to the @Html.ActionLink("go to feed", "GoToFeed", "Feeds") page.</p>

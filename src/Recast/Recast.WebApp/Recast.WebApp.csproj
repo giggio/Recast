@@ -335,6 +335,9 @@
     <Content Include="Views\Feeds\_GoToFeed.cshtml" />
     <Content Include="Views\Feeds\EditPost.cshtml" />
     <Content Include="Views\Feeds\_EditPost.cshtml" />
+    <Content Include="Views\Home\HowToStart.cshtml" />
+    <Content Include="Views\Home\Support.cshtml" />
+    <Content Include="Views\Home\Contribute.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Filters\" />
