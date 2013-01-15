@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using Recast.WebApp.Infra;
 using Recast.WebApp.Models.Entities;
@@ -28,14 +30,28 @@ namespace Recast.WebApp.Controllers
             var client = account.CreateCloudTableClient();
             var table = client.GetTableReference("Feed");
 
-            var feed = new Feed(feedViewModel.UserName, feedViewModel.FeedName);
-            table.Insert(feed);
+            var feed = new Feed(feedViewModel.UserName.ToLower(), feedViewModel.FeedName.ToLower());
+            try
+            {
+                table.Insert(feed);
+            }
+            catch (StorageException ex)
+            {
+                if (ex.InnerException is WebException && ((HttpWebResponse) ((WebException) ex.InnerException).Response).StatusCode == HttpStatusCode.Conflict)
+                {
+                    ViewBag.IsDuplicate = true;
+                    return View(feedViewModel);
+                }
+                throw;
+            }
 
             return RedirectToRoute("ViewFeed", new { userName = feedViewModel.UserName, feedName = feedViewModel.FeedName});
         }  
 
         public ActionResult ViewFeed(string userName, string feedName)
         {
+            userName = userName.ToLower();
+            feedName = feedName.ToLower();
             ViewBag.UserName = userName;
             ViewBag.FeedName = feedName;
             var account = AzureTableExtensions.GetStorageAccount();
@@ -89,7 +105,7 @@ namespace Recast.WebApp.Controllers
             var account = AzureTableExtensions.GetStorageAccount();
             var client = account.CreateCloudTableClient();
             var feedsTable = client.GetTableReference("Feed");
-            var feed = (Feed)feedsTable.Execute(TableOperation.Retrieve<Feed>(userName, feedName)).Result;
+            var feed = (Feed)feedsTable.Execute(TableOperation.Retrieve<Feed>(userName.ToLower(), feedName.ToLower())).Result;
             var query = new TableQuery<Post>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, Post.CreateKey(feed.PartitionKey, feed.RowKey)));
             var postsTable = client.GetTableReference("Post");
             var posts = postsTable.ExecuteQuery(query);

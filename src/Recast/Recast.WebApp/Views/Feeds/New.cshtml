@@ -4,6 +4,12 @@
 }
 
 <h2>Create a new feed</h2>
+@if (ViewBag.IsDuplicate != null && ViewBag.IsDuplicate)
+{
+    <div class="ui-state-error">
+        <h4>Feed already exists.</h4>
+    </div>
+}
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
