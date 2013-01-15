@@ -198,6 +198,8 @@
     <Compile Include="Infra\AzureTableExtensions.cs" />
     <Compile Include="Models\Entities\Feed.cs" />
     <Compile Include="Models\Entities\Post.cs" />
+    <Compile Include="Models\Feeds.cs" />
+    <Compile Include="Models\Posts.cs" />
     <Compile Include="Models\ViewModel\FeedViewModel.cs" />
     <Compile Include="Models\ViewModel\PostViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

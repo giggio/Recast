@@ -6,6 +6,6 @@ namespace Recast.WebApp.Models.Entities
     {
         public Feed() {}
         //pk is username, rk is feedName
-        public Feed(string userName, string feedName) : base(userName, feedName) {}
+        public Feed(string userName, string feedName) : base(userName.ToLower(), feedName.ToLower()) {}
     }
 }
