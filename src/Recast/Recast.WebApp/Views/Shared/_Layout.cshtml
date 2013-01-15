@@ -58,6 +58,7 @@
         @Scripts.Render("~/Scripts/startup.min.js")
         @RenderSection("scripts", required: false)
         @Html.RenderScripts()
+        @{Html.RenderPartial("_GoogleAnalytics");}
     </body>
 </html>
 <!-- Podcast icon from Toddle: http://www.toddle.com/ -->
