@@ -9,7 +9,7 @@ You can visit it at [http://recast.azurewebsites.net/](http://recast.azurewebsit
 
 ## Documentation
 
-Still to be created.
+Still to be created. Please read [the blog post](http://blog.lambda3.com.br/2013/01/recast-um-projetinho-open-source-rapido/) explaining the project if you want more information.
 
 ## Support
 
