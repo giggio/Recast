@@ -1,0 +1,27 @@
+﻿@model Recast.WebApp.Models.ViewModel.FeedViewModel
+<h2>Search for a feed</h2>
+@using (Html.BeginForm(controllerName: "Feeds", actionName: "GoToFeed"))
+{
+    @Html.ValidationSummary(true)
+    <div>
+        Your name:
+    </div>
+    <div>
+        @Html.EditorFor(model => model.UserName)
+        @Html.ValidationMessageFor(model => model.UserName)
+    </div>
+    <div>
+        Your feed name:
+    </div>
+    <div>
+        @Html.EditorFor(model => model.FeedName)
+        @Html.ValidationMessageFor(model => model.FeedName)
+    </div>
+    <input type="submit" value="Go" class="btn btn-primary" />
+}
+
+@section scripts {
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}

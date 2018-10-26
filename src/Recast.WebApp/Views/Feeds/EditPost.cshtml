@@ -1,0 +1,35 @@
+﻿@model Recast.WebApp.Models.ViewModel.PostViewModel
+
+@{
+    ViewBag.Title = "Edit Podcast Post";
+}
+
+<h2>Editing post to feed @Model.FeedName</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Post</legend>
+
+        <partial name="_EditPost" />
+
+        <p>
+            <input type="submit" value="Update" />
+        </p>
+    </fieldset>
+}
+
+@section scripts {
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript">
+         $(function () {
+             $("#PublishDateDatePicker").datepicker({
+                 altField: "#PublishDate",
+                 altFormat: "mm/dd/yy '12:00:00 PM'"
+             });
+             $("#PublishDateDatePicker").datepicker("setDate", "@Model.PublishDate.ToString("d")");
+        });
+    </script>
+}

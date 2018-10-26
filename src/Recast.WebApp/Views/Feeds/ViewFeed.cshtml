@@ -1,0 +1,14 @@
+﻿@using Recast.WebApp.Models.Entities
+@model Feed
+@{
+    if (Model != null)
+    {
+        await Html.RenderPartialAsync("_ShowFeed");
+        ViewBag.Title = "Feed " + Model.RowKey + " for " + Model.PartitionKey;
+    }
+    else
+    {
+        await Html.RenderPartialAsync("_FeedNotFound");
+        ViewBag.Title = "Unknown feed";
+    }
+}
