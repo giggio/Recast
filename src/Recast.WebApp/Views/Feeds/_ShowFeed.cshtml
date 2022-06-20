@@ -1,4 +1,4 @@
-﻿@using Recast.WebApp.Models.Entities
+@using Recast.WebApp.Models.Entities
 @using Recast.WebApp.Models.ViewModel
 @model Feed
 @{
@@ -10,17 +10,37 @@
 <h2>Feed @Model.RowKey for @Model.PartitionKey <a href="@Url.RouteUrl("XMLFeed", new { userName = Model.PartitionKey, feedName = Model.RowKey })" class="btn"><i class="icon-music"></i> Feed rss</a></h2>
 
 <fieldset>
-
-    
 </fieldset>
 
 <ol>
-@foreach (PostViewModel post in ViewBag.Posts)
-{
-    <li>@post.Title <span class="btn-group"><a href="@Url.Action("EditPost", new { userName = post.UserName, feedName = post.FeedName, title = post.Title })" class="btn"><i class="icon-edit"></i> Edit</a> <a href="@Url.Action("DeletePost", new { userName = post.UserName, feedName = post.FeedName, title = post.Title })" class="btn btn-danger"><i class="icon-trash"></i> Delete</a></span></li>
-}
+    @foreach (PostViewModel post in ViewBag.Posts)
+    {
+        @*<li>@post.Title <span class="btn-group"><a href="@Url.Action("EditPost", new { userName = post.UserName, feedName = post.FeedName, title = post.Title })" class="btn"><i class="icon-edit"></i> Edit</a> <a href="@Url.Action("DeletePost", new { userName = post.UserName, feedName = post.FeedName, title = post.Title })" class="btn btn-danger"><i class="icon-trash"></i> Delete</a></span></li>*@
+        <li>
+            @post.Title
+            <span class="btn-group">
+                <a href="@Url.Action("EditPost", new { userName = post.UserName, feedName = post.FeedName, title = post.Title })" class="btn">
+                    <i class="icon-edit"></i> Edit
+                </a>
+                <form asp-action="DeletePost" method="post" style="display:inline;">
+                    <input type="hidden" name="UserName" id="UserName" value="@post.UserName" />
+                    <input type="hidden" name="FeedName" id="FeedName" value="@post.FeedName" />
+                    <input type="hidden" name="Title" id="Title" value="@post.Title" />
+                    <button type="submit" class="btn btn-danger">
+                        <i class="icon-trash"></i> Delete
+                    </button>
+                    @if (ViewBag.CantDelete)
+                    {
+                        <label for="Key" style="display:inline; margin-left: 10px;">Key:</label>
+                        <input type="text" name="Key" id="Key" style="display:inline;" />
+                    }
+                </form>
+            </span>
+        </li>
+    }
 </ol>
 
 <p>
     @Html.ActionLink("Add podcast post", "AddPost", "Feeds", new { userName = Model.PartitionKey, feedName = Model.RowKey }, new { @class = "btn btn-primary"})
 </p>
+

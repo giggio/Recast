@@ -6,6 +6,8 @@ builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<Feeds>();
 builder.Services.AddScoped<Posts>();
+builder.Services.AddSingleton(sp => new PostDeletionKey(sp.GetRequiredService<IConfiguration>().GetValue<string>("ControlledPostsDeletionKey") ?? throw new Exception("ControlledPostsDeletionKey is null")));
+builder.Services.AddSingleton(sp => new PostDeletionUsers(sp.GetRequiredService<IConfiguration>().GetValue<string>("ControlledUsersForPostsDeletion").Split(',')));
 builder.Services.MapAll();
 
 var app = builder.Build();

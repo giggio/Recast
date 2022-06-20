@@ -39,7 +39,7 @@ public class FeedsController : Controller
         return View(feedViewModel);
     }
 
-    public async Task<ActionResult> ViewFeed(string userName, string feedName)
+    public async Task<ActionResult> ViewFeed([FromServices] PostDeletionUsers usersRequiringKey, string userName, string feedName)
     {
         ViewBag.UserName = userName;
         ViewBag.FeedName = feedName;
@@ -48,6 +48,7 @@ public class FeedsController : Controller
             return View();
         var feedPosts = await posts.GetForFeed(feed);
         ViewBag.Posts = mapper.Map<IEnumerable<PostViewModel>>(feedPosts);
+        ViewBag.CantDelete = usersRequiringKey.Users.Any(u => u == userName);
         return View(feed);
     }
 
@@ -80,10 +81,12 @@ public class FeedsController : Controller
         return Content(xml, "text/xml");
     }
 
-    public async Task<ActionResult> DeletePost(string userName, string feedName, string title)
+    public async Task<ActionResult> DeletePost([FromServices] PostDeletionUsers usersRequiringKey, [FromServices] PostDeletionKey deletionKey, string userName, string feedName, string title, string key = null)
     {
+        if (usersRequiringKey.Users.Any(u => u == userName) && deletionKey.Key != key)
+            return RedirectToRoute(nameof(ViewFeed), new { userName, feedName });
         await posts.Delete(userName, feedName, title);
-        return RedirectToRoute("ViewFeed", new { userName, feedName });
+        return RedirectToRoute(nameof(ViewFeed), new { userName, feedName });
     }
 
     [HttpGet]
