@@ -43,7 +43,7 @@ public class FeedsController : Controller
     {
         ViewBag.UserName = userName;
         ViewBag.FeedName = feedName;
-        var feed = await feeds.Get(userName, feedName);
+        var feed = await feeds.GetAsync(userName, feedName);
         if (feed == null)
             return View();
         var feedPosts = await posts.GetForFeed(feed);
@@ -75,7 +75,7 @@ public class FeedsController : Controller
 
     public async Task<ActionResult> GetFeed(string userName, string feedName)
     {
-        var feed = await feeds.Get(userName, feedName);
+        var feed = await feeds.GetAsync(userName, feedName);
         var feedPosts = await posts.GetForFeed(feed);
         var xml = FeedConverter.Create(new Uri($"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}"), feed, feedPosts);
         return Content(xml, "text/xml");

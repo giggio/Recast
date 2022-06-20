@@ -24,16 +24,14 @@ public class Feeds
         }
         catch (StorageException ex)
         {
-            if (ex.InnerException is WebException && ((HttpWebResponse)((WebException)ex.InnerException).Response).StatusCode == HttpStatusCode.Conflict)
-            {
+            if (ex.InnerException is WebException exception && ((HttpWebResponse)exception.Response).StatusCode == HttpStatusCode.Conflict)
                 return false;
-            }
             throw;
         }
         return true;
     }
 
-    public async Task<Feed> Get(string userName, string feedName)
+    public async Task<Feed> GetAsync(string userName, string feedName)
     {
         userName = userName.ToLower();
         feedName = feedName.ToLower();
