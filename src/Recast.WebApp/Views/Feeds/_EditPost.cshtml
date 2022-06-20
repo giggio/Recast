@@ -1,4 +1,4 @@
-﻿@model Recast.WebApp.Models.ViewModel.PostViewModel
+@model Recast.WebApp.Models.ViewModel.PostViewModel
 @Html.HiddenFor(model => model.UserName)
 @Html.HiddenFor(model => model.FeedName)
 
@@ -80,3 +80,10 @@
     @Html.EditorFor(model => model.Duration)
     @Html.ValidationMessageFor(model => model.Duration)
 </div>
+@if (ViewBag.NeedsKey != null && ViewBag.NeedsKey)
+{
+<div class="editor-field">
+    <label for="key">Key</label>
+    <input type="text" id="key" name="key" value="@ViewBag.Key" />
+</div>
+}

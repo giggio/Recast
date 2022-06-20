@@ -53,13 +53,22 @@ public class FeedsController : Controller
     }
 
     [HttpGet]
-    public ActionResult AddPost(string userName, string feedName) => View(new PostViewModel { UserName = userName, FeedName = feedName, PublishDate = DateTime.Now, SongLink = "http://" });
+    public ActionResult AddPost([FromServices] PostDeletionUsers usersRequiringKey, string userName, string feedName)
+    {
+        ViewBag.NeedsKey = usersRequiringKey.Users.Any(u => u == userName);
+        return View(new PostViewModel { UserName = userName, FeedName = feedName, PublishDate = DateTime.Now, SongLink = "http://" });
+    }
 
     [HttpPost]
-    public ActionResult AddPost(PostViewModel postView)
+    public ActionResult AddPost([FromServices] PostDeletionUsers usersRequiringKey, [FromServices] PostDeletionKey creationKey, PostViewModel postView, string key)
     {
-        if (!ModelState.IsValid)
+        var requiresKey = usersRequiringKey.Users.Any(u => u == postView.UserName);
+        if (!ModelState.IsValid || requiresKey && creationKey.Key != key)
+        {
+            ViewBag.NeedsKey = usersRequiringKey.Users.Any(u => u == postView.UserName);
+            ViewBag.Key = key;
             return View(postView);
+        }
 
         var post = mapper.Map<Post>(postView);
         posts.Insert(post);
@@ -81,6 +90,7 @@ public class FeedsController : Controller
         return Content(xml, "text/xml");
     }
 
+    [HttpPost]
     public async Task<ActionResult> DeletePost([FromServices] PostDeletionUsers usersRequiringKey, [FromServices] PostDeletionKey deletionKey, string userName, string feedName, string title, string key = null)
     {
         if (usersRequiringKey.Users.Any(u => u == userName) && deletionKey.Key != key)
@@ -90,8 +100,9 @@ public class FeedsController : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult> EditPost(string userName, string feedName, string title)
+    public async Task<ActionResult> EditPost([FromServices] PostDeletionUsers usersRequiringKey, string userName, string feedName, string title)
     {
+        ViewBag.NeedsKey = usersRequiringKey.Users.Any(u => u == userName);
         var post = await posts.Get(userName, feedName, title);
         if (post == null)
             return RedirectToRoute("ViewFeed", new { userName, feedName });
@@ -101,10 +112,15 @@ public class FeedsController : Controller
     }
 
     [HttpPost]
-    public async Task<ActionResult> EditPost(PostViewModel postViewModel)
+    public async Task<ActionResult> EditPost([FromServices] PostDeletionUsers usersRequiringKey, [FromServices] PostDeletionKey editKey, PostViewModel postViewModel, string key = null)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || usersRequiringKey.Users.Any(u => u == postViewModel.UserName) && editKey.Key != key)
+        {
+            ViewBag.NeedsKey = usersRequiringKey.Users.Any(u => u == postViewModel.UserName);
+            ViewBag.Key = key;
+            ViewBag.IsUpdate = true;
             return View(postViewModel);
+        }
         var post = await posts.Get(postViewModel.UserName, postViewModel.FeedName, postViewModel.Title);
         if (post == null)
             return RedirectToRoute("ViewFeed", new { userName = postViewModel.UserName, feedName = postViewModel.FeedName });
