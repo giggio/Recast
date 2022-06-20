@@ -1,12 +1,9 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Recast.WebApp.Models;
 using Recast.WebApp.Models.Entities;
 using Recast.WebApp.Models.ViewModel;
 using Recast.XmlFeed;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Recast.WebApp.Controllers
 {
@@ -14,11 +11,13 @@ namespace Recast.WebApp.Controllers
     {
         private readonly Feeds feeds;
         private readonly Posts posts;
+        private readonly IMapper mapper;
 
-        public FeedsController(Feeds feeds, Posts posts)
+        public FeedsController(Feeds feeds, Posts posts, IMapper mapper)
         {
             this.feeds = feeds ?? throw new ArgumentNullException(nameof(feeds));
             this.posts = posts ?? throw new ArgumentNullException(nameof(posts));
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -30,17 +29,18 @@ namespace Recast.WebApp.Controllers
         [HttpPost]
         public ActionResult New(FeedViewModel feedViewModel)
         {
-            if (!ModelState.IsValid) return View(feedViewModel);
+            if (!ModelState.IsValid)
+                return View(feedViewModel);
             var feed = new Feed(feedViewModel.UserName, feedViewModel.FeedName);
 
             var created = feeds.Insert(feed);
             if (created)
             {
-                return RedirectToRoute("ViewFeed", new { userName = feedViewModel.UserName, feedName = feedViewModel.FeedName });                
+                return RedirectToRoute("ViewFeed", new { userName = feedViewModel.UserName, feedName = feedViewModel.FeedName });
             }
             ViewBag.IsDuplicate = true;
             return View(feedViewModel);
-        }  
+        }
 
         public async Task<ActionResult> ViewFeed(string userName, string feedName)
         {
@@ -50,35 +50,37 @@ namespace Recast.WebApp.Controllers
             if (feed == null)
                 return View();
             var feedPosts = await posts.GetForFeed(feed);
-            ViewBag.Posts = Mapper.Map<IEnumerable<PostViewModel>>(feedPosts);
+            ViewBag.Posts = mapper.Map<IEnumerable<PostViewModel>>(feedPosts);
             return View(feed);
         }
 
         [HttpGet]
         public ActionResult AddPost(string userName, string feedName)
         {
-            return View(new PostViewModel{UserName = userName, FeedName = feedName, PublishDate = DateTime.Now, SongLink = "http://"});
+            return View(new PostViewModel { UserName = userName, FeedName = feedName, PublishDate = DateTime.Now, SongLink = "http://" });
         }
 
         [HttpPost]
         public ActionResult AddPost(PostViewModel postView)
         {
-            if (!ModelState.IsValid) return View(postView);
+            if (!ModelState.IsValid)
+                return View(postView);
 
-            var post = Mapper.Map<Post>(postView);
+            var post = mapper.Map<Post>(postView);
             posts.Insert(post);
-            
-            return RedirectToRoute("ViewFeed", new { userName = post.GetUserName(), feedName = post.GetFeedName()});
+
+            return RedirectToRoute("ViewFeed", new { userName = post.GetUserName(), feedName = post.GetFeedName() });
         }
         [HttpGet]
         public ActionResult GoToFeed()
         {
             return View();
-        }      
+        }
         [HttpPost]
         public ActionResult GoToFeed(FeedViewModel feedViewModel)
         {
-            if (!ModelState.IsValid) return View(feedViewModel);
+            if (!ModelState.IsValid)
+                return View(feedViewModel);
             return RedirectToRoute("ViewFeed", new { userName = feedViewModel.UserName, feedName = feedViewModel.FeedName });
         }
 
@@ -102,7 +104,7 @@ namespace Recast.WebApp.Controllers
             var post = await posts.Get(userName, feedName, title);
             if (post == null)
                 return RedirectToRoute("ViewFeed", new { userName, feedName });
-            var postViewModel = Mapper.Map<PostViewModel>(post);
+            var postViewModel = mapper.Map<PostViewModel>(post);
             ViewBag.IsUpdate = true;
             return View(postViewModel);
         }
@@ -110,11 +112,12 @@ namespace Recast.WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> EditPost(PostViewModel postViewModel)
         {
-            if (!ModelState.IsValid) return View(postViewModel);
+            if (!ModelState.IsValid)
+                return View(postViewModel);
             var post = await posts.Get(postViewModel.UserName, postViewModel.FeedName, postViewModel.Title);
             if (post == null)
                 return RedirectToRoute("ViewFeed", new { userName = postViewModel.UserName, feedName = postViewModel.FeedName });
-            Mapper.Map(postViewModel, post);
+            mapper.Map(postViewModel, post);
             await posts.Update(post);
             return RedirectToRoute("ViewFeed", new { userName = postViewModel.UserName, feedName = postViewModel.FeedName });
         }

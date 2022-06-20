@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing.Constraints;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Recast.WebApp.Models;
 
 namespace Recast.WebApp
@@ -23,18 +12,17 @@ namespace Recast.WebApp
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddControllersWithViews();
             services.AddScoped<Feeds>();
             services.AddScoped<Posts>();
-            AutoMapping.MapAll();
+            services.MapAll();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            AzureStorage.CreateAllTables(Configuration).Wait();
+            AzureStorage.CreateAllTablesAsync(Configuration).Wait();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -47,25 +35,25 @@ namespace Recast.WebApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            app.UseRouting();
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "XMLFeed",
-                    template: "{userName}/{feedName}",
+                    pattern: "{userName}/{feedName}",
                     defaults: new { controller = "Feeds", action = "GetFeed" },
                     constraints: new { userName = @"^(?!feeds$|feed$|home$).*" }
                 );
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "ViewFeed",
-                    template: "Feeds/{userName:regex(^(?!create$|Create$|new$|New$).*)}/{feedName}",
+                    pattern: "Feeds/{userName:regex(^(?!create$|Create$|new$|New$).*)}/{feedName}",
                     defaults: new { controller = "Feeds", action = "ViewFeed" },
                     constraints: new { httpMethod = new HttpMethodRouteConstraint("GET") }
                 );
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "Default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

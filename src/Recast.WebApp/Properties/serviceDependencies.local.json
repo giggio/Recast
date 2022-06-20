@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "storage1": {
+      "containerPorts": "10000:10000,10001:10001,10002:10002",
+      "secretStore": null,
+      "containerName": "azurite",
+      "containerImage": "mcr.microsoft.com/azure-storage/azurite",
+      "resourceId": null,
+      "type": "storage.container",
+      "connectionId": "StorageAccount"
+    }
+  }
+}
